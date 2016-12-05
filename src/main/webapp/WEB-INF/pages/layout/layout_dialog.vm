@@ -1,0 +1,12 @@
+#set($path = $springMacroRequestContext.getContextPath()) 
+#set($linkMe="#"+"#"+"#")
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="${path}/static/css/css_shanghu.css" rel="stylesheet"></link>
+</head>
+<body>
+	$screen_content 
+</body>
+</html>

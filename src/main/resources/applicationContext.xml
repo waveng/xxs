@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+    <!-- 启用注解扫描-->
+    <context:component-scan base-package="com.xs.xxs.controller"/>
+    <!-- Spring mvc 注解-->
+    <mvc:annotation-driven/>
+    <!-- 静态资源处理 -->
+    <mvc:default-servlet-handler/>
+    <!-- aspectj -->
+    <aop:aspectj-autoproxy/>
+    
+    <bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+				<ref bean="stringHttpMessageConverter" />
+				<ref bean="jsonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="stringHttpMessageConverter"
+		class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/plain;charset=UTF-8</value>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	
+    <bean id="jsonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="velocityConfigurer"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="/WEB-INF/pages/" />
+		<property name="velocityProperties">
+			<props>
+				<prop key="input.encoding">UTF-8</prop>
+				<prop key="output.encoding">UTF-8</prop>
+				<!-- autoreload when vm changed -->
+				<prop key="file.resource.loader.cache">false</prop>
+				<prop key="file.resource.loader.modificationCheckInterval">2</prop>
+				<prop key="velocimacro.library.autoreload">false</prop>
+				<!-- 
+				<prop key="velocimacro.library">common/library.vm</prop>
+				<prop key="velocimacro.library.autoreload">true</prop>
+			    -->
+				<prop key="velocimacro.permissions.allow.inline">true</prop>
+				<prop key="velocimacro.permissions.allow.inline.to.replace.global">false</prop>
+				<prop key="velocimacro.permissions.allow.inline.local.scope">false</prop>
+				<prop key="velocimacro.context.localscope">false</prop>
+				<prop key="velocimacro.messages.on">false</prop>
+				
+			</props>
+		</property>
+		<!-- <property name="configLocation" value="classpath:velocity.properties" />  -->
+	</bean>
+	
+	<!-- 
+	   自定义布局模板时使用 VelocityLayoutViewResolver
+	 <bean id="viewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+	 -->
+  	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+		<property name="suffix" value=".vm" />
+		
+		<!--velocity 自定义布局模板文件指定（默认模板文件） -->
+		<!-- <property name="viewClass" value="org.springframework.web.servlet.view.velocity.VelocityLayoutView"/>--> 
+		<!-- <property name="layoutUrl" value="layout/layout_default.vm" />-->
+		<property name="allowRequestOverride" value="true" />
+		<property name="allowSessionOverride" value="true" />
+		<property name="contentType" value="text/html;charset=utf-8" />
+		<!-- 是否开放request属性 -->
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+		<!-- 是否使用spring对宏定义的支持 -->
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<!-- toolbox配置文件路径 -->
+		<property name="toolboxConfigLocation" value="/WEB-INF/classes/velocity-toolbox.xml" />
+		<!-- 日期函数名称 -->
+		<property name="dateToolAttribute" value="dateTool" />
+		<!-- 数字函数名称 -->
+		<property name="numberToolAttribute" value="numberTool" />
+	</bean>
+	
+    <!-- 视图解析器
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean> -->
+</beans>
