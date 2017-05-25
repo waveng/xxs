@@ -1,0 +1,73 @@
+#**
+
+@test arithmetic.vm
+
+This template is used for Velocity regression testing.
+If you alter this template make sure you change the
+corresponding comparison file so that the regression 
+test doesn't fail incorrectly.
+
+*#
+
+#set($foo = 5)
+#set($foo = $foo + 1)
+$foo
+<br/>
+#set($foo = $foo - 1)
+$foo
+<br/>
+#set($foo = $foo * 2)
+$foo
+<br/>
+#set($foo = $foo / 2)
+$foo
+<br/>
+Check the decimal literals
+#set($bar = 4.5e3)
+$bar
+<br/>
+#set($bar = 4.5e+3)
+$bar
+<br/>
+#set($bar = 4.5e-3)
+$bar
+<br/>
+#set($bar = 4.5e055)
+$bar
+<br/>
+#set($bar = 4.5)
+$bar
+<br/>
+#set($bar = $bar + 1)
+$bar
+<br/>
+#set($tbar = $bar * 2)
+$tbar
+<br/>
+Check that the system can handle integers greater than Integer.MAX_INT
+#set($baba = 100000000000)
+$baba
+<br/>
+#set($baba = $baba + 1)
+$baba
+<br/>
+#set ($foo = $foo / 2)
+$foo
+<br/>
+## now lets try some string concatenation
+
+#set($stringy = "This is a very long string"
+ + " that we are breaking up into multiple"
+ + " lines for testing."
+)
+$stringy
+<br/>
+#set($stringy = "This is a string. The number 2 = " + 2)
+$stringy
+<br/>
+#set($three = 3)
+#set($stringy = "This is a string."
++ " The value = " 
++ $three
+)
+$stringy
